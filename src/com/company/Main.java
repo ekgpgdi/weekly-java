@@ -47,6 +47,31 @@ abstract class Player {
         }
         System.out.println("------------------------------------------");
     }
+
+    public boolean check(String number) {
+        if (number.length() != 4) {
+            System.out.println("Invalid input(length 4). The opportunity passes to the next team");
+            return false;
+        }
+        if (!number.matches("-?\\d+(\\.\\d+)?")) {
+            System.out.println("Invalid input(Only Numeric). The opportunity passes to the next team");
+            return false;
+        }
+
+        int[] num = new int[10];
+
+        for (int i = 0; i < number.length(); i++) {
+            int index = number.charAt(i) - '0';
+            if (num[index] == 1) {
+                System.out.println("Invalid input(same number). The opportunity passes to the next team");
+                return false;
+            } else {
+                num[index] = 1;
+            }
+        }
+        return true;
+    }
+
 }
 
 class PlayerATeam extends Player {
@@ -63,25 +88,8 @@ class PlayerATeam extends Player {
         // TODO
         String correct = getInitNumber();
 
-        if (number.length() != 4) {
-            System.out.println("Invalid input(length 4). The opportunity passes to the next team");
+        if (!check(number)) {
             return;
-        }
-        if (!number.matches("-?\\d+(\\.\\d+)?")) {
-            System.out.println("Invalid input(Only Numeric). The opportunity passes to the next team");
-            return;
-        }
-
-        int[] num = new int[10];
-
-        for (int i = 0; i < number.length(); i++) {
-            int index = number.charAt(i) - '0';
-            if (num[index] == 1) {
-                System.out.println("Invalid input(same number). The opportunity passes to the next team");
-                return;
-            } else {
-                num[index] = 1;
-            }
         }
 
         for (int i = 0; i < number.length(); i++) {
@@ -122,25 +130,8 @@ class PlayerBTeam extends Player {
         // TODO
         String correct = getInitNumber();
 
-        if (number.length() != 4) {
-            System.out.println("Invalid input(length 4). The opportunity passes to the next team");
+        if (!check(number)) {
             return;
-        }
-        if (!number.matches("-?\\d+(\\.\\d+)?")) {
-            System.out.println("Invalid input(Only Numeric). The opportunity passes to the next team");
-            return;
-        }
-
-        int[] num = new int[10];
-
-        for (int i = 0; i < number.length(); i++) {
-            int index = number.charAt(i) - '0';
-            if (num[index] == 1) {
-                System.out.println("Invalid input(same number). The opportunity passes to the next team");
-                return;
-            } else {
-                num[index] = 1;
-            }
         }
 
         for (int i = 0; i < number.length(); i++) {
@@ -159,6 +150,48 @@ class PlayerBTeam extends Player {
         addFightList(fight);
 
         if (ball == 4) {
+            System.out.println("Congratulation!");
+            super.setIsEnd(true);
+        } else {
+            System.out.println("Strike : " + strike + ", Ball :" + ball + ", Out: " + out);
+        }
+    }
+}
+
+class PlayerCTeam extends Player {
+    public PlayerCTeam(String name, String number) {
+        super(name, number);
+    }
+
+    @Override
+    public void play(String number) throws Exception {
+        int strike = 0;
+        int ball = 0;
+        int out = 0;
+
+        // TODO
+        String correct = getInitNumber();
+
+        if (!check(number)) {
+            return;
+        }
+
+        for (int i = 0; i < number.length(); i++) {
+            if (number.charAt(i) == correct.charAt(i)) {
+                strike++;
+            } else {
+                if (!correct.contains(String.valueOf(number.charAt(i)))) {
+                    out++;
+                }
+            }
+        }
+
+        ball = 4 - strike - out;
+
+        String fight = number + ": Strike : " + strike + ", Ball : " + ball + ", Out : " + out;
+        addFightList(fight);
+
+        if (strike == 4) {
             System.out.println("Congratulation!");
             super.setIsEnd(true);
         } else {
