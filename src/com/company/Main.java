@@ -191,7 +191,7 @@ class PlayerCTeam extends Player {
         String fight = number + ": Strike : " + strike + ", Ball : " + ball + ", Out : " + out;
         addFightList(fight);
 
-        if (strike == 4) {
+        if (strike >= 3) {
             System.out.println("Congratulation!");
             super.setIsEnd(true);
         } else {
@@ -204,7 +204,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Player playerArray[] = {new PlayerATeam("A Team", "1234"), new PlayerBTeam("B Team", "5678")};
+        Player playerArray[] = {new PlayerATeam("A Team", "1234"), new PlayerBTeam("B Team", "5678"), new PlayerCTeam("C Team", "7381")};
         int checkPlayer = 0;
 
         while (true) {
